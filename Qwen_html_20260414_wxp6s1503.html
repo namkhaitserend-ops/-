@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="p-5 mb-4 bg-light rounded-3 hero-section">
+    <div class="container-fluid py-4">
+        <h1 class="display-5 fw-bold text-primary">Мөст сумын Ерөнхий Боловсролын Сургууль</h1>
+        <p class="col-md-8 fs-4">{{ info.motto if info else 'Ирээдүйн эзэд иргэд хүмүүжих ариун сургууль' }}</p>
+        {% if info %}
+        <div class="row mt-3">
+            <div class="col-md-4"><i class="fas fa-user-graduate me-2"></i>Сурагч: {{ info.student_count }}</div>
+            <div class="col-md-4"><i class="fas fa-chalkboard-teacher me-2"></i>Багш: {{ info.teacher_count }}</div>
+            <div class="col-md-4"><i class="fas fa-map-marker-alt me-2"></i>{{ info.address if info.address else 'Говь-Алтай аймаг, Мөст сум' }}</div>
+        </div>
+        {% endif %}
+        <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg mt-3">
+            <i class="fas fa-sign-in-alt me-2"></i>Нэвтрэх
+        </a>
+    </div>
+</div>
+
+<div id="about" class="row my-4">
+    <div class="col-md-8">
+        <h2 class="border-bottom pb-2">Сургуулийн Танилцуулга</h2>
+        <p>{{ info.description if info and info.description else 'Мөст сумын ЕБС нь олон улсын стандартын боловсрол олгох, сурагчдын хөгжил дэвшилд төвлөрсөн орчин үеийн сургууль юм.' }}</p>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-clock me-2"></i>Хичээлийн цаг</h5>
+                <ul class="list-unstyled">
+                    <li>Даваа - Баасан: 08:00 - 16:00</li>
+                    <li>Бямба: 09:00 - 13:00</li>
+                    <li>Ням: Амралтын өдөр</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="news" class="my-4">
+    <h2 class="border-bottom pb-2">Сүүлийн мэдээ</h2>
+    <div class="row">
+        {% for n in news %}
+        <div class="col-md-6 mb-3">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{ n.title }}</h5>
+                    <small class="text-muted"><i class="far fa-calendar me-1"></i>{{ n.created_at.strftime('%Y-%m-%d') }} | {{ n.author }}</small>
+                    <p class="card-text mt-2">{{ n.content[:150] }}...</p>
+                    <a href="#" class="btn btn-outline-primary btn-sm">Дэлгэрэнгүй</a>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-12 text-center text-muted py-4">Одоогоор мэдээ байхгүй байна.</div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

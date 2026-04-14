@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="mb-4"><i class="fas fa-chalkboard-teacher me-2"></i>Багшийн Самбар</h2>
+
+<div class="alert alert-primary">
+    <h4>Таны хичээл: {{ subject }}</h4>
+    <p class="mb-0">Хавтасны нэвтрэх код: <strong>{{ code }}</strong></p>
+    <small class="text-muted">Энэ кодыг бусад математикийн багш нартай хуваалцаж, файлаа хамтран ашиглаарай.</small>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-4 mb-3">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <i class="fas fa-folder-open fa-3x text-warning mb-3"></i>
+                <h5>Файлын хавтас</h5>
+                <p class="text-muted">Хичээлийн материалуудаа эндээс нэгтгэн ашиглах</p>
+                <a href="{{ url_for('teacher_files') }}" class="btn btn-primary">Нээх</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <i class="fas fa-upload fa-3x text-success mb-3"></i>
+                <h5>Файл байршуулах</h5>
+                <p class="text-muted">PDF, Word, PowerPoint, Excel зэрэг файлууд</p>
+                <a href="{{ url_for('teacher_files') }}" class="btn btn-success">Байршуулах</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <i class="fas fa-users fa-3x text-info mb-3"></i>
+                <h5>Хамтын ажиллагаа</h5>
+                <p class="text-muted">Ижил хичээлийн багш нартай хуваалцах</p>
+                <button class="btn btn-info text-white" disabled>Тун удахгүй</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="mb-4"><i class="fas fa-user-shield me-2"></i>Админы Удирдлагын Самбар</h2>
+
+<div class="row g-4">
+    <!-- Шинэ хэрэглэгч нэмэх -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="fas fa-user-plus me-2"></i>Багш/Хэрэглэгч нэмэх</h5>
+            </div>
+            <div class="card-body">
+                <form action="{{ url_for('add_user') }}" method="POST">
+                    <div class="mb-2">
+                        <input type="text" name="username" class="form-control" placeholder="Хэрэглэгчийн нэр" required>
+                    </div>
+                    <div class="mb-2">
+                        <input type="password" name="password" class="form-control" placeholder="Нууц үг" required>
+                    </div>
+                    <div class="mb-2">
+                        <select name="role" class="form-select">
+                            <option value="teacher">Багш</option>
+                            <option value="content_manager">Контент хариуцагч</option>
+                            <option value="admin">Админ</option>
+                        </select>
+                    </div>
+                    <div class="mb-2">
+                        <input type="text" name="subject" class="form-control" placeholder="Хичээлийн нэр (Жишээ: математик)">
+                    </div>
+                    <div class="mb-2">
+                        <input type="text" name="access_code" class="form-control" placeholder="Хавтасны код (автомат үүсгэх боломжтой)">
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">Үүсгэх</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Мэдээ нэмэх -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="fas fa-newspaper me-2"></i>Шинэ мэдээ бичих</h5>
+            </div>
+            <div class="card-body">
+                <form action="{{ url_for('add_news') }}" method="POST">
+                    <input type="text" name="title" class="form-control mb-2" placeholder="Мэдээний гарчиг" required>
+                    <textarea name="content" class="form-control mb-2" rows="4" placeholder="Мэдээний агуулга..." required></textarea>
+                    <button type="submit" class="btn btn-info text-white w-100">Нийтлэх</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Сургуулийн мэдээлэл -->
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-warning">
+                <h5 class="mb-0"><i class="fas fa-school me-2"></i>Сургуулийн үндсэн мэдээлэл</h5>
+            </div>
+            <div class="card-body">
+                <form action="{{ url_for('update_info') }}" method="POST">
+                    <div class="row">
+                        <div class="col-md-3 mb-2"><input type="number" name="student_count" class="form-control" placeholder="Сурагчийн тоо" value="{{ info.student_count if info else 0 }}"></div>
+                        <div class="col-md-3 mb-2"><input type="number" name="teacher_count" class="form-control" placeholder="Багшийн тоо" value="{{ info.teacher_count if info else 0 }}"></div>
+                        <div class="col-md-3 mb-2"><input type="text" name="phone" class="form-control" placeholder="Утас" value="{{ info.phone if info else '' }}"></div>
+                        <div class="col-md-3 mb-2"><input type="email" name="email" class="form-control" placeholder="Имэйл" value="{{ info.email if info else '' }}"></div>
+                        <div class="col-12 mb-2"><input type="text" name="address" class="form-control" placeholder="Хаяг" value="{{ info.address if info else '' }}"></div>
+                        <div class="col-12 mb-2"><input type="text" name="motto" class="form-control" placeholder="Уриа" value="{{ info.motto if info else '' }}"></div>
+                        <div class="col-12 mb-2"><textarea name="description" class="form-control" rows="2" placeholder="Танилцуулга">{{ info.description if info else '' }}</textarea></div>
+                    </div>
+                    <button type="submit" class="btn btn-warning w-100">Хадгалах</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Хэрэглэгчдийн жагсаалт -->
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">Хэрэглэгчдийн жагсаалт</div>
+            <table class="table table-striped">
+                <thead><tr><th>Нэр</th><th>Имэйл</th><th>Үүрэг</th><th>Хичээл</th><th>Код</th></tr></thead>
+                <tbody>
+                    {% for u in users %}
+                    <tr>
+                        <td>{{ u.username }}</td>
+                        <td>{{ u.email }}</td>
+                        <td><span class="badge bg-{{ 'danger' if u.role == 'admin' else 'primary' if u.role == 'teacher' else 'success' }}">{{ u.role }}</span></td>
+                        <td>{{ u.subject or '-' }}</td>
+                        <td><code>{{ u.access_code }}</code></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
